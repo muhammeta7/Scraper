@@ -1,12 +1,18 @@
 // Dependencies 
-var express = require('express');
-var app = express();
 var bodyParser = require('body-parser');
-// var logger = require('morgan');
+var logger = require('morgan');
 var mongoose = require('mongoose');
 var request = require('request');
 var cheerio = require('cheerio');
 
+var express = require('express');
+var app = express();
+app.use(express.static(process.cwd() + '/public'));
+var exphbs = require('express-handlebars');
+app.engine('handlebars', exphbs({
+  defaultLayout: 'main'
+}));
+app.set('view engine', 'handlebars');
 // morgan and body-parser 
 // app.use(logger('dev'));
 app.use(bodyParser.urlencoded({
@@ -33,18 +39,11 @@ db.once('open', function() {
 
 // We bring in the articles
 var Article = require('./models/Article.js');
-var Comments = require('./models/Comments.js');
+var Comments = require('./models/Comment.js');
 
 // Routes
-// ===============================================================
-
-// Index Route
-app.get('/', function (req, res) {
-  res.send(index.html);
-});
-
-
-
+var routes = require('./controller/controller.js');
+app.use('/', routes);
 
 // Server and set up for Heroku app
 var port = process.env.port || 3000;
