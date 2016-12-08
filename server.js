@@ -38,3 +38,16 @@ var Comments = require('./models/Comments.js');
 // Routes
 // ===============================================================
 
+// Index Route
+app.get('/', function (req, res) {
+  res.send(index.html);
+});
+
+
+
+
+// Server and set up for Heroku app
+var port = process.env.port || 3000;
+app.listen(port, function() {
+  console.log('App listening on PORT: ' + port);
+});
