@@ -1,0 +1,28 @@
+/*Navbar*/
+.brand-logo {
+  position: relative;
+  left: 50px;
+}
+
+/*Sticky Footer*/
+.footer-copyright {
+  text-align: center;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+
+  /*Add Background Texture*/
+  background-image: url('../images/newspaper-texture.jpg');
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+/*headear*/
+.collection-item {
+  font-size: 16px;
+}
