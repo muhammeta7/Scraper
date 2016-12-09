@@ -24,6 +24,7 @@
     "express-handlebars": "^3.0.0",
     "moment": "^2.17.1",
     "mongoose": "^4.7.2",
+    "morgan": "^1.7.0",
     "request": "^2.79.0"
   }
 }
