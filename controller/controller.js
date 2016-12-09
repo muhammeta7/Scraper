@@ -48,7 +48,7 @@ router.get('/scrape', function(req, res) {
 
         // add the text and href of every link, 
         // and save them as properties of the result obj
-        result.title = $(this).children('header').children('h2').text() + '';
+        result.title = $(this).children('header').children('h2').text().trim() + '';
        // Collect the Article Link (contained within the "a" tag of the "h2" in the "header" of "this")
         result.link = 'http://www.nytimes.com/section/sports' + $(this).children('header').children('h2').children('a').attr('href');
 
@@ -58,20 +58,11 @@ router.get('/scrape', function(req, res) {
         // Error handling to ensure there are no empty scrapes
         if(result.title !== "" &&  result.summary !== ""){
 
-          // BUT we must also check within each scrape since the Onion has duplicate articles...
           // Due to async, moongoose will not save the articles fast enough for the duplicates within a scrape to be caught
           if(titlesArray.indexOf(result.title) == -1){
-
-            // Push the saved item to our titlesArray to prevent duplicates thanks the the pesky Onion...
             titlesArray.push(result.title);
-
-            // Only add the entry to the database if is not already there
             Article.count({ title: result.title}, function (err, test){
-
-              // If the count is 0, then the entry is unique and should be saved
               if(test == 0){
-
-                // Using the Article model, create a new entry (note that the "result" object has the exact same key-value pairs of the model)
                 var entry = new Article (result);
 
                 // Save the entry to MongoDB
