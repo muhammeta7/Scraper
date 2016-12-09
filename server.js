@@ -24,8 +24,13 @@ app.use(express.static('public'));
 
 
 // Database Configuration
-mongoose.connect('mongodb://localhost/MongoScrape');
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/sports_news');
 var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log('Connected to Mongoose!')
+});
 
 // Show any Mongoose errors
 db.on('error', function(err) {
