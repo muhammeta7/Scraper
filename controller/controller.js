@@ -45,11 +45,10 @@ router.get('/scrape', function(req, res) {
     // now, we grab every h2 within an article tag, and do the following:
     $('.story-body').each(function(i, element) {
         var result = {};
-
         // add the text and href of every link, 
         // and save them as properties of the result obj
         result.title = $(this).children('h2').children('a').text().trim() + '';
-       // Collect the Article Link (contained within the "a" tag of the "h2" in the "header" of "this")
+       // Collect the Article Link (contained within the "a" tag of the "h2"  of "this")
         result.link = $(this).children('h2').children('a').attr('href');
 
         // Collect article summary
@@ -61,6 +60,7 @@ router.get('/scrape', function(req, res) {
           // Due to async, moongoose will not save the articles fast enough for the duplicates within a scrape to be caught
           if(titlesArray.indexOf(result.title) == -1){
             titlesArray.push(result.title);
+            // Only adds the entry to the database if is not already there
             Article.count({ title: result.title}, function (err, test){
               if(test == 0){
                 var entry = new Article (result);
