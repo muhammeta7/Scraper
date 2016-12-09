@@ -13,7 +13,6 @@ var Article = require('../models/Article.js');
 
 
 // Index Route
-// Index Route
 router.get('/', function (req, res) {
   res.redirect("/scrape");
 });
@@ -56,20 +55,16 @@ router.get('/scrape', function(req, res) {
         // Collect article summary
         result.summary = $(this).children('.summary').text().trim() + "";
 
-     // Error handling to ensure there are no empty scrapes
+        // Error handling to ensure there are no empty scrapes
         if(result.title !== "" &&  result.summary !== ""){
 
-          //Check for duplicate articles
+          // Due to async, moongoose will not save the articles fast enough for the duplicates within a scrape to be caught
           if(titlesArray.indexOf(result.title) == -1){
-            // Push the saved item to our titlesArray to prevent duplicates 
             titlesArray.push(result.title);
-
-            // Only add the entry to the database if is not already there
             Article.count({ title: result.title}, function (err, test){
-              // If the count is 0, then the entry is unique and should be saved
               if(test == 0){
-                // Using the Article model, create a new entry (note that the "result" object has the exact same key-value pairs of the model)
-                var entry = new Article (result)
+                var entry = new Article (result);
+
                 // Save the entry to MongoDB
                 entry.save(function(err, doc) {
                   if (err) {
@@ -82,30 +77,31 @@ router.get('/scrape', function(req, res) {
                 });
 
               }
-              // Log that scrape is working, just the content was already in the Database
+              // Log that scrape is working, content is already in the Database
               else{
-                console.log('Redundant DB Content. Not saved to DB.')
+                console.log('Repeated DB Content. Not saved to DB.')
               }
 
             });
         }
-        // Log that scrape is working, just the content was missing parts
+        // Log that scrape is working, content is missing parts
         else{
-          console.log('Redundant NYT Content. Not Saved to DB.')
+          console.log('Repeat Content. Not Saved to DB.')
         }
 
       }
-      // Log that scrape is working, just the content was missing parts
+      // Log that scrape is working, content is missing parts
       else{
         console.log('Empty Content. Not Saved to DB.')
       }
 
     });
 
-    // Redirect to the Articles Page, done at the end of the request for proper scoping
+    // Redirect to the Articles Page, done at the end of request 
     res.redirect("/articles-json");
 
   });
+
 });
 
 router.get("/articles-json", function(req, res) {
@@ -117,5 +113,9 @@ router.get("/articles-json", function(req, res) {
         }
     });
 });
+
+// Add a comment route
+
+
 
 module.exports = router;
