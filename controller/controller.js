@@ -13,6 +13,7 @@ var Article = require('../models/Article.js');
 
 
 // Index Route
+// Index Route
 router.get('/', function (req, res) {
   res.redirect("/scrape");
 });
@@ -43,31 +44,34 @@ router.get('/scrape', function(req, res) {
      // Error Handler to prevent duplicates
     var titlesArray = [];
     // now, we grab every h2 within an article tag, and do the following:
-    $('article .story-body').each(function(i, element) {
+    $('.story-body').each(function(i, element) {
         var result = {};
 
         // add the text and href of every link, 
         // and save them as properties of the result obj
-        result.title = $(this).children('header').children('h2').text().trim() + '';
+        result.title = $(this).children('h2').children('a').text().trim() + '';
        // Collect the Article Link (contained within the "a" tag of the "h2" in the "header" of "this")
-        result.link = 'http://www.nytimes.com/section/sports' + $(this).children('header').children('h2').children('a').attr('href');
+        result.link = $(this).children('h2').children('a').attr('href');
 
         // Collect article summary
-        result.summary = $(this).children('div').text().trim() + "";
+        result.summary = $(this).children('.summary').text().trim() + "";
 
-        // Error handling to ensure there are no empty scrapes
+     // Error handling to ensure there are no empty scrapes
         if(result.title !== "" &&  result.summary !== ""){
 
-          // Due to async, moongoose will not save the articles fast enough for the duplicates within a scrape to be caught
+          //Check for duplicate articles
           if(titlesArray.indexOf(result.title) == -1){
+            // Push the saved item to our titlesArray to prevent duplicates 
             titlesArray.push(result.title);
-            Article.count({ title: result.title}, function (err, test){
-              if(test == 0){
-                var entry = new Article (result);
 
+            // Only add the entry to the database if is not already there
+            Article.count({ title: result.title}, function (err, test){
+              // If the count is 0, then the entry is unique and should be saved
+              if(test == 0){
+                // Using the Article model, create a new entry (note that the "result" object has the exact same key-value pairs of the model)
+                var entry = new Article (result)
                 // Save the entry to MongoDB
                 entry.save(function(err, doc) {
-                  // log any errors
                   if (err) {
                     console.log(err);
                   } 
@@ -80,14 +84,14 @@ router.get('/scrape', function(req, res) {
               }
               // Log that scrape is working, just the content was already in the Database
               else{
-                console.log('Repeated Database Content. Not saved to DB.')
+                console.log('Redundant DB Content. Not saved to DB.')
               }
 
             });
         }
         // Log that scrape is working, just the content was missing parts
         else{
-          console.log('Repeat Content. Not Saved to DB.')
+          console.log('Redundant NYT Content. Not Saved to DB.')
         }
 
       }
@@ -99,11 +103,19 @@ router.get('/scrape', function(req, res) {
     });
 
     // Redirect to the Articles Page, done at the end of the request for proper scoping
-    res.redirect("/articles");
+    res.redirect("/articles-json");
 
   });
-
 });
 
+router.get("/articles-json", function(req, res) {
+    Article.find({}, function(err, doc) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(doc);
+        }
+    });
+});
 
 module.exports = router;
