@@ -40,24 +40,24 @@ router.get('/scrape', function(req, res) {
   request('http://www.nytimes.com/section/sports', function(error, response, html) {
     // then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(html);
-     // Error Handler to prevent duplicates
+    // Error Handler to prevent duplicates
     var titlesArray = [];
     // now, we grab every h2 within an article tag, and do the following:
     $('.story-body').each(function(i, element) {
         var result = {};
         // add the text and href of every link, 
         // and save them as properties of the result obj
-        result.title = $(this).children('h2').children('a').text().trim() + '';
+        result.title = $(this).children('h2').children('a').text().trim();
        // Collect the Article Link (contained within the "a" tag of the "h2"  of "this")
         result.link = $(this).children('h2').children('a').attr('href');
 
         // Collect article summary
-        result.summary = $(this).children('.summary').text().trim() + "";
+        result.summary = $(this).children('.summary').text().trim();
 
         // Error handling to ensure there are no empty scrapes
         if(result.title !== "" &&  result.summary !== ""){
 
-          // Due to async, moongoose will not save the articles fast enough for the duplicates within a scrape to be caught
+          // Due to async, Mongoose does not catch duplicates
           if(titlesArray.indexOf(result.title) == -1){
             titlesArray.push(result.title);
             // Only adds the entry to the database if is not already there
@@ -98,24 +98,81 @@ router.get('/scrape', function(req, res) {
     });
 
     // Redirect to the Articles Page, done at the end of request 
-    res.redirect("/articles-json");
+    res.redirect("/articles");
 
   });
 
 });
 
-router.get("/articles-json", function(req, res) {
-    Article.find({}, function(err, doc) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(doc);
-        }
-    });
-});
+// router.get("/articles-json", function(req, res) {
+//     Article.find({}, function(err, doc) {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             res.json(doc);
+//         }
+//     });
+// });
 
 // Add a comment route
+router.post('/add/comment/:id', function(req, res) {
+  // Collect id, author, and comment content
+  var articleId = req.params.id;
+  var author = req.body.name;
+  var comment = req.body.comment;
 
+  // "result" object has same key-value pairs as Comment model
+  var result = {
+    author: author,
+    content: comment
+  } 
+  // Using the Comment model, create a new comment entry
+  var entry = new Comment (result);
+
+  // Save the entry to the database
+  entry.save(function(err, doc) {
+    // log any errors
+    if (err) {
+      console.log(err);
+    } 
+    // Or, relate the comment to the article
+    else {
+      // Push the new Comment to the list of comments in the article
+      Article.findOneAndUpdate({'_id': articleId}, {$push: {'comments':doc._id}}, {new: true})
+      // execute the above query
+      .exec(function(err, doc){
+        // log any errors
+        if (err){
+          console.log(err);
+        } else {
+          // Send Success Header
+          res.sendStatus(200);
+        }
+      });
+    }
+  });
+});
+
+// Delete Comment Route
+router.post('/remove/comment/:id', function (req, res){
+
+  // Collect comment id
+  var commentId = req.params.id;
+
+  // Find and Delete the Comment using the Id
+  Comment.findByIdAndRemove(commentId, function (err, todo) {  
+    
+    if (err) {
+      console.log(err);
+    } 
+    else {
+      // Send Success Header
+      res.sendStatus(200);
+    }
+
+  });
+
+});
 
 
 module.exports = router;
