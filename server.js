@@ -22,8 +22,8 @@ app.use(bodyParser.urlencoded({
 // Make public a static dir
 app.use(express.static('public'));
 
-if(process.env.MONGOLAB_URI){
-  mongoose.connect(process.env.MONGOLAB_URI);
+if(process.env.MONGODB_URI){
+  mongoose.connect(process.env.MONGODB_URI);
 }
 else{
   mongoose.connect('mongodb://localhost/MongoScrape');
