@@ -101,18 +101,8 @@ router.get('/scrape', function(req, res) {
     res.redirect("/articles");
 
   });
-
 });
 
-// router.get("/articles-json", function(req, res) {
-//     Article.find({}, function(err, doc) {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             res.json(doc);
-//         }
-//     });
-// });
 
 // Add a comment route
 router.post('/add/comment/:id', function(req, res) {

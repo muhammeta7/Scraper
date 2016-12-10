@@ -53,7 +53,7 @@
             <div class="row">
               <div class="input-field col s2"></div>
               <div class="input-field col s8">
-              <center><input class="btn add-comment-button" data-id="{{_id}}" type="submit" value="Submit"></center>
+              <center><input class="btn addComment" data-id="{{_id}}" type="submit" value="Submit"></center>
               </div>
             </div>
           
@@ -71,26 +71,28 @@
         {{!-- Check if the article has comments --}}
         {{#if comments}}
 
-          {{!-- Article has comments so iterate over them  --}}
+          {{!-- If Article has comments iterate over them  --}}
           <ul class="collection">
             {{#each comments}}
             
               <li class="collection-item">
-
                 {{!-- Add Author Name --}}
-                <b>{{author}}</b> 
-
-                {{!-- Add a Delete Button --}}
-                <span class="badge">
-                  <form id="form-delete-{{_id}}" action="remove/comment/{{_id}}" method="post">
-                    <input class="btn-small delete-comment-button" data-id="{{_id}}" type="submit" value="Delete" style="color: white; background-color: red; border-color: red;">
-                  </form>
-                </span>
-
-                <br>
-
-                {{!-- Add the Content of the Comment --}}
-                {{content}}
+                <div class="input-field col s3">
+                  <b>{{author}}</b>
+                </div>
+                <div class="input-field col s5">
+                  {{!-- Add the Content of the Comment --}}
+                  {{content}}
+                </div>
+                <div class="input-field col s2">
+                  {{!-- Add a Delete Button --}}
+                  <span class="badge">
+                    <form id="form-delete-{{_id}}" action="remove/comment/{{_id}}" method="post">
+                      <input class="btn-small deleteComment" data-id="{{_id}}" type="submit" value="Delete" style="">
+                    </form>
+                  </span>
+                </div>
+                
 
               </li> 
             {{/each}}
