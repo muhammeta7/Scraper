@@ -22,8 +22,8 @@ app.use(bodyParser.urlencoded({
 // Make public a static dir
 app.use(express.static('public'));
 
-if(process.env.port){
-  mongoose.connect('mongodb://heroku_075lfq4l:h65jb4ele4hg1kafa2p39jbvbe@ds127988.mlab.com:27988/heroku_075lfq4l');
+if(process.env.MONGOLAB_URI){
+  mongoose.connect(process.env.MONGOLAB_URI);
 }
 else{
   mongoose.connect('mongodb://localhost/MongoScrape');
