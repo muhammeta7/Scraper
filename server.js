@@ -30,7 +30,7 @@ else{
   mongoose.connect('mongodb://localhost/MongoScrape');
 }
 // Database Configuration
-mongoose.connect('mongodb://localhost/MongoScrape');
+// mongoose.connect('mongodb://localhost/MongoScrape');
 var db = mongoose.connection;
 
 // Show any Mongoose errors
