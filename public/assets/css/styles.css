@@ -31,3 +31,19 @@ h2 {
   font-size: 24px;
   text-align:  center;
 }
+
+
+/*Mongoose Rendered Dom*/
+.collapsible-body {
+  background-color: white;
+}
+
+.collapsible-header {
+  background-color: white;
+}
+
+.deleteComment {
+    color: white; 
+    background-color: red;
+    border: 2px border black;
+}
