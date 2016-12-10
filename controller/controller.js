@@ -50,13 +50,10 @@ router.get('/scrape', function(req, res) {
         result.title = $(this).children('h2').children('a').text().trim();
        // Collect the Article Link (contained within the "a" tag of the "h2"  of "this")
         result.link = $(this).children('h2').children('a').attr('href');
-
         // Collect article summary
         result.summary = $(this).children('.summary').text().trim();
-
         // Error handling to ensure there are no empty scrapes
         if(result.title !== "" &&  result.summary !== ""){
-
           // Due to async, Mongoose does not catch duplicates
           if(titlesArray.indexOf(result.title) == -1){
             titlesArray.push(result.title);
@@ -94,18 +91,17 @@ router.get('/scrape', function(req, res) {
       else{
         console.log('Empty Content. Not Saved to DB.')
       }
-
     });
-
     // Redirect to the Articles Page, done at the end of request 
     res.redirect("/articles");
-
   });
+
 });
 
 
 // Add a comment route
 router.post('/add/comment/:id', function(req, res) {
+
   // Collect id, author, and comment content
   var articleId = req.params.id;
   var author = req.body.name;
@@ -141,6 +137,7 @@ router.post('/add/comment/:id', function(req, res) {
       });
     }
   });
+
 });
 
 // Delete Comment Route
@@ -148,10 +145,8 @@ router.post('/remove/comment/:id', function (req, res){
 
   // Collect comment id
   var commentId = req.params.id;
-
   // Find and Delete the Comment using the Id
   Comment.findByIdAndRemove(commentId, function (err, todo) {  
-    
     if (err) {
       console.log(err);
     } 
@@ -159,7 +154,6 @@ router.post('/remove/comment/:id', function (req, res){
       // Send Success Header
       res.sendStatus(200);
     }
-
   });
 
 });

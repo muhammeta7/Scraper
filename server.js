@@ -22,9 +22,12 @@ app.use(bodyParser.urlencoded({
 // Make public a static dir
 app.use(express.static('public'));
 
-
-// Database Configuration
-mongoose.connect('mongodb://localhost/MongoScrape');
+if(process.env.NODE_ENV == 'production'){
+  mongoose.connect('mongodb://heroku_075lfq4l:h65jb4ele4hg1kafa2p39jbvbe@ds127988.mlab.com:27988/heroku_075lfq4l');
+}
+else{
+  mongoose.connect('mongodb://localhost/MongoScrape');
+}
 var db = mongoose.connection;
 
 // Show any Mongoose errors
