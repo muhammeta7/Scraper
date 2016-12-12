@@ -33,6 +33,7 @@ h2 {
 }
 
 
+
 /*Mongoose Rendered Dom*/
 .collapsible-body {
   background-color: white;
@@ -46,4 +47,13 @@ h2 {
   color: white; 
   background-color: red;
   border: 2px border black;
+}
+
+
+.collection .collection-item {
+    background-color: #fff;
+    line-height: 1.5rem;
+    padding: 0px;
+    margin: 0;
+    border-bottom: 1px solid #e0e0e0;
 }

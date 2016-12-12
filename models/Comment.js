@@ -15,9 +15,7 @@ var CommentSchema = new Schema({
   content: {
     type: String
   }
-  
 });
-
 
 // Create the Comment model with Mongoose
 var Comment = mongoose.model('Comment', CommentSchema);
