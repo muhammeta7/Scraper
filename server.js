@@ -23,10 +23,14 @@ app.use(bodyParser.urlencoded({
 app.use(express.static('public'));
 
 if(process.env.MONGODB_URI){
-  mongoose.connect(process.env.MONGODB_URI);
+  mongoose.connect(process.env.MONGODB_URI, function(){
+    console.log("uri connected");
+  });
 }
 else{
-  mongoose.connect('mongodb://localhost/MongoScrape');
+  mongoose.connect('mongodb://localhost/MongoScrape', function(){
+    console.log("local load");
+  });
 }
 var db = mongoose.connection;
 
