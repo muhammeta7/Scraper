@@ -29,15 +29,10 @@ Backend: App uses 'express' to serve routes and 'mongoose' to interact with a 'M
 ![Article Preview](/screenshots/preview.png)
 
 ### Click the Chat Bubble icon to add a comment via the `/add/comment/:id` post route
-![Add Comment](/screenshots/add-comment.png)
+![Add Comment](/screenshots/comment.png)
 
 #### Click the Thumbs up/down icon to view comments
-![View Comment](/screenshots/view-comment.png)
-
-
-#### Note that the web scraping occurs on the `/scrape` route.
-#### On visiting the index route, `/`, express redirects to `/scrape` and then `/articles` routes
-
+![View Comments](/screenshots/view.png)
 
 ## Authors
 
