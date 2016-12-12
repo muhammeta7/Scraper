@@ -58,9 +58,9 @@ var routes = require('./controller/controller.js');
 app.use('/', routes);
 
 // Server and set up for Heroku app
-var port = process.env.port || 3000;
-app.listen(port, function() {
-  console.log('App listening on PORT: ' + port);
+var PORT = process.env.PORT || 3000;
+app.listen(PORT, function() {
+  console.log('App listening on PORT: ' + PORT);
 });
 
 // 'mongodb://heroku_075lfq4l:h65jb4ele4hg1kafa2p39jbvbe@ds127988.mlab.com:27988/heroku_075lfq4l'
