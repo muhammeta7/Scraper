@@ -13,7 +13,7 @@ If you want to clone the app down to your local machine do the following:
   3. Then open another bash or terminal/gitbash window and run `mongod`
   4. Run the script with `node server.js`.
   5. Navigate to `localhost:3000` in your browser.
-
+ 
 # :satellite: Technologies Used
 
 Frontend: 'Materialize' and Font-Awesome is used as the styling framework. The templating for each article that is scraped to be render is done using 'handlebars'. For the comments sectionthe app uses 'jQuery' and 'AJAX' to make post requests.
@@ -36,4 +36,4 @@ Backend: App uses 'express' to serve routes and 'mongoose' to interact with a 'M
 
 ## Authors
 
-* **Muhammet Aydin** - *Sequelize/Node/Express* - [Muhammet Aydin](https://github.com/muhammeta7/MongoScrape)
+* **Muhammet Aydin** - *Sequelize/Node/Express* - [Muhammet Aydin](https://github.com/muhammeta7)
