@@ -2,7 +2,7 @@
 A `Node.js` &amp; `MongoDB` webapp that web-scrapes sports articles from [The NY Times](http://www.nytimes.com/section/sports) and stores them into a database.  That info is then rendered onto the page and users can comment on the articles. Users can also delete unwanted comments.
 
 # :computer: Get Started
-Check out the app yourself: [Link](https://nytimes-sports.herokuapp.com/articles)
+Check out the app yourself: [Link](https://nytsports.herokuapp.com/articles)
 
 ## Clone down the repo locally
 If you want to clone the app down to your local machine do the following:
