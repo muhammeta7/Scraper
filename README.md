@@ -18,7 +18,7 @@ If you want to clone the app down to your local machine do the following:
 
 Frontend: `Materialize` and Font-Awesome is used as the styling framework. The templating for each article that is scraped to be render is done using `handlebars`. For the comments sectionthe app uses `jQuery` and `AJAX` to make post requests.
 
-Backend: App uses `express` to serve routes and `mongoose` to interact with a 'MongoDB' database. Webscraping is completed using the `request` and `cheerio` npm packages. Refer to controller.js file for all route and webscraping code.
+Backend: App uses `express` to serve routes and `mongoose` to interact with a `MongoDB` database. Webscraping is completed using the `request` and `cheerio` npm packages. Refer to controller.js file for all route and webscraping code.
 
 
 ## Screenshots
